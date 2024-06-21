@@ -1,10 +1,18 @@
 package com.practise.cache.domain;
 
 
+import com.vladmihalcea.hibernate.type.json.JsonStringType;
+import com.vladmihalcea.hibernate.type.json.JsonType;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
+@TypeDef(name = "json",
+        typeClass = JsonType.class)
 public class Book implements Serializable {
 
     @Id
@@ -16,6 +24,9 @@ public class Book implements Serializable {
     private String author;
     private String publisher;
     private String edition;
+    @Type(type = "json")
+    @Column(name = "shops", columnDefinition = "json")
+    private List<Shop> shops;
 
     public int getId() {
         return id;
@@ -63,5 +74,13 @@ public class Book implements Serializable {
 
     public void setEdition(String edition) {
         this.edition = edition;
+    }
+
+    public List<Shop> getShops() {
+        return shops;
+    }
+
+    public void setShops(List<Shop> shops) {
+        this.shops = shops;
     }
 }
